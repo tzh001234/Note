@@ -20,8 +20,7 @@ func main(){
 		C bool
 	)  
 //变量名格式    
-	推荐使用小驼峰
-	var studentName string //小驼峰 
+	var studentName string //小驼峰（推荐使用）
 	var StudentName string //大驼峰 
 	var student_name string//下划线 
 //定义常量  
