@@ -50,7 +50,7 @@ func main(){
 	//输出语句 
 	fmt.Print(A) 直接输出要打印的内容 
 	fmt.Printf("name:%s\n",A)  %s:占位符 字符串类型  \n:换行符 
-    fmt.Println(a) 末尾输出一个换行符 
+	fmt.Println(a) 末尾输出一个换行符 
 	//输入语句 
 	fmt.Scan(&a,&b)  //键盘输入时以空格作为分隔符  
 	fmt.Scanf("%d",&a) 
