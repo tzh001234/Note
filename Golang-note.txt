@@ -507,6 +507,7 @@ func main(){
 
 //编译运行 
  go build         遍历文件夹内的所有.go文件 编译生成.exe文件
+ go build -o" "   编译的同时命名.exe文件
  go run  main.go  执行main.go文件 
  go install       先编译后拷贝 
  
