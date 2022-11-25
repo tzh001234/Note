@@ -57,7 +57,7 @@ func main(){
 	fmt.Scanln(&a)   
 ## 基本数据类型
 //占位符:
-	fmt.Printf("%T\n",A)	 
+	fmt.Printf("%T\n",A)  //用 unsafe.Sizeof() 可以返回变量占用的字节数
 	%T 变量的类型 
 	%v 默认类型值（万能）%#v 标注变量的类型
 	%b 二进制  %d十进制  %o八进制  %x十六进制 
