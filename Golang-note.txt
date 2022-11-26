@@ -13,7 +13,7 @@ func main(){
 	s4:=12     //在函数内声明变量可以省略var关键字 
 	s5:=int8(2)
 
-	//批量声明
+	//批量声明 
 	var(
 		A string
 		B int
