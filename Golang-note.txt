@@ -483,9 +483,74 @@ func main(){
 		if n==2{return 2}
 		return QQQQQ(n-1)+QQQQQ(n-2) 
 	} 
-
 	
-//逻辑运算符大致优先级：
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+# 其他
+
+//if判断 
+	if age:=19;age>35 { // 作用域 age 只能在这个if语句里使用 
+	fmt.Println("中年") 
+	}else if age>18 { 
+	fmt.Println("成年") 
+	}  
+	//switch case
+	switch age {    //简化大量的判断
+	case 1:
+		fmt.Println("一岁")
+	case 2：
+		fmt.Println("二岁")
+	case age<18 && age>7：
+		fmt.Println("好好学习吧")
+	case 'q'：//字符字符串也可以比较
+		fmt.Println("这是一个字符")
+	default:     //其他值 
+		fmt.Println("无")	 
+	} 
+//for循环      （同样有作用域问题） 
+	for i:=0;i<10;i++{ //初始语句可以忽略，但分号必须写 for ;i<10;i++
+		fmt.Println(i) 
+	} 	//break、goto、return、panic 强制退出循环
+	continue//跳过此次循环继续下一次循环 
+	//for range 
+	//map  
+	m:=make(map[string]int,5) 
+	for k,v:=range m{ // (map)  k:v  string:int   string:int
+		fmt.Println(k,v) 
+	}
+	//string
+	s:="Hello沙河" 
+	for i,v:=range s{ //(字符串) i:v  0:H  1:e  2:l  3:l  4:o  5:沙  8：河 
+		fmt.Println("%d %v\n",i,v) //在UTF-8编码中汉字占三个字节 
+	} 
+	//切片 
+	s:=[]int{5,6,7} 
+	s:=[...]int{5,6,7} 
+	for i,v:=range s{ //(切片)(数组)i:v  0:5  1:6  2:7
+		fmt.Println(i,v)
+	}
+
+//逻辑运算符
+	1,算数运算符
+		+	-	*	/ (整数运算只留整数)   % (求余)   ++  -- (只能独立使用) 
+	2,关系运算符
+		==   !=	  >	  <	  >=   <= 
+	3,逻辑运算符
+		&&	 ||  !  与,或,非（短路与，短路或）（没有必要时不会运行判断后半部分） 
+	4,位运算符(二进制)
+		&   |   ^   <<    >>	与,或,异或,左移,右移  任何数异或零都为本身	
+	5,赋值运算符 (先运算再赋值) 
+		=  +=  -=  *=  /=  %=  <<=  >>=  &=  |=  ^=
+
+	大致优先级：
 	1.括号 ++ --
 	2.单目运算
 	3.算术运算符 
