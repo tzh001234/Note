@@ -571,7 +571,26 @@ func main(){
 	只在本语句中生效 
 	
 
-
+//JSON序列化
+	type point struct{
+		Xxx int  `json:"xxx"`  //大写才能被别的包调用
+		Yyy int  `json:"yyy"`  //在json里改为xxx yyy 
+	}
+	//序列化 
+	p1:=point{100,200} 
+	b,err:=json.Marshal(p1) //b:[]byte  err:error(错误) 
+	if err != nil{
+		fmt.Printf("有错误，err:%v\n",err)
+	}
+	fmt.Println(string(b)) 
+	//反序列化 
+	str:=`{"xxx":10,"yyy":20}`
+	var p2 point
+	err=json.Unmarshal([]byte(str),&p2)//需要传递指针来改变p2的值 
+	if err != nil{
+		fmt.Printf("有错误，err:%v\n",err)
+	}
+	fmt.Println(p2) 
 
 
 	 
