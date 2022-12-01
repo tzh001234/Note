@@ -56,6 +56,10 @@ func main(){
 	fmt.Scanf("%d",&a) 
 	fmt.Scanln(&a)   
 ## 基本数据类型
+	//值类型：    通常存放在栈区中
+	int  float  bool  string  数组  结构体    
+	//引用类型：  通常存放在堆区中  没有变量引用存放的地址时由GC回收 
+	指针  slice切片  map  chan管道  interface接口  
 //占位符:
 	fmt.Printf("%T\n",A)  //用 unsafe.Sizeof() 可以返回变量占用的字节数
 	%T 变量的类型 
