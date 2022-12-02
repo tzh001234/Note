@@ -546,6 +546,13 @@ func main(){
 	for i,v:=range s{ //(切片)(数组)i:v  0:5  1:6  2:7
 		fmt.Println(i,v)
 	}
+//break
+	可以跳出for循环和switch
+	break lable1  //使用标签可以指定跳出几层循环，默认跳出最近的一层循环 
+//continue
+	用于结束本次循环，继续下次循环（不跳出） 
+	
+
 
 //逻辑运算符
 	1,算数运算符
