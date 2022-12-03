@@ -134,9 +134,19 @@ func main(){
 	type b=int  //类型别名 	 编译后还是int类型  如byte是int8的类型别名 而rune是int32 
 //匿名变量 
     _   多用来忽略某个值  不占用命名空间 不分配内存 	
-	 
 //字符串转义符 
-\	\r 回车符 \n 换行符 \t 制表符（Tab键） \" " 双引号 \\ 反斜杠 
+  \	\r 回车符 \n 换行符 \t 制表符（Tab键） \" " 双引号 \\ 反斜杠 
+//强制转换
+	a:=int(b) 转换完之后b本身的类型不会变，若数值超过范围则进行溢出处理 
+	//基本数据类型 转 字符串类型 
+	1）str:=fmt.Sprintf("a=%d",a)  //返回对应的字符串类型 
+	2）str:=strconv.Itoa(a) //strconv包中的Iota函数，将int转换为字符串类型 
+	3）strconv包中的Format系列函数将给定类型数据格式化为string类型数据。	
+		FormatBool() , FormatFloat() , FormatInt() , FormatUint()
+	//字符串类型 转 基本数据类型
+	strconv包中的Parse系列函数用于转换字符串为给定类型的值
+		ParseBool() 、 ParseFloat() 、 ParseInt() 、 ParseUint() 
+		如果转换的时候不匹配就输出对应类型的默认0值 
 
 ## 复合数据类型
 //数组   （array） 
