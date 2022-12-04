@@ -412,35 +412,29 @@ func main(){
 	
 	 
 ##函数
-	函数是一段代码的封装，把一段代码抽象出来封装到一个函数中，给它起个名字，每次用到它的时候直接用函数名调用就可以了，能够让代码更清晰 更简洁。	
-	//定义    ( 参数 )   (返回值) 
-	func sum(x int,y int)(ret int){ //参数和返回值可以命名也可以不命名  同时在此函数内部定义了x,y和ret 
-		return x+y //return后若省略  返回定义的ret 
+	//func 函数名(参数)(返回值) 
+	func sum(x int,y int)(r int){ //支持命名（相当于声明变量），返回值可以不加括号 
+		return x+y  //return后若省略  则默认返回定义的变量r
 	} 
-	//没有返回值
-	func f1(x int,y int){
-		fmt.Println(x+y)
-	} 
-	//没有参数
-	func f2( ) int{ //返回值的类型可以不用加括号 
-		return 3
-	} 
-	//没有参数也没有返回值
+	a:=sum    "函数本身也是一种数据类型" 可直接赋给一个变量 
+	//没有参数或返回值
 	func f3(){
-		fmt.Println(f3)
+		fmt.Println("你好")
 	}  
 	//多个返回值 
 	func f4()(int,string){
 		return 1，"北京" //多个返回值的时候 必须用多个变量接收 
 	}   
-	//参数类型的简写 
-	func f5(x,y,z int，a，b string)int{
-		return x+y//当参数中多个连续的类型一致的时候，可以将非最后一个参数的类型省略 
+	//参数类型简写 
+	func f5(x,y,z int, a,b,c string)int{
+		return x+y 	 	//只在最后的参数后标明类型  逗号隔开参数 
 	} 
 	//可变长参数
-	func f6(x string,y ...int){ //可变长参数必须放在参数的最后 
-		fmt.Println(y)   //y是切片[]int  可传任意长度的值 
-	} 
+	func f6(x string, y... int){    //可变长参数必须放在最后
+		for i,v:=range y {   //遍历   y实际是切片[]int类型  
+			fmt.Println(i,v)
+		}    
+	}  
 //函数作为参数和返回值
 	函数也是变量的类型 func(int)int 等 
 	func f1( x func(int)int ) ( y func(int)int ) {
