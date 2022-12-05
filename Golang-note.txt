@@ -146,6 +146,14 @@ func main(){
 	index:=strings.Index("NLT_abc","abc")//4    子串第一次出现时的下标 
 	index:=strings.Index("go go12","abc")//3    子串最后一次出现时的下标
 	s:=strings.Replace("go go","go","北京",2) //输出替换子串后的新字符串 	
+	//字符串大小写 
+		不区分大小写比较字符串   (直接用 == 判断时区分大小写)
+	b:=strings.Equalfold("abc","Abc")    //true 
+		将字符串中字母大小写进行转换 
+	s=strings.Tolower("Go") //go  全转换成小写 
+	s=strings.ToUpper("Go") //GO  全转换成大写
+	
+	
 
 //匿名变量 
     _   多用来忽略某个值  不占用命名空间 不分配内存 	
