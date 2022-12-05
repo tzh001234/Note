@@ -140,6 +140,13 @@ func main(){
 	//字符串切割
 	s:="how do you do"
 	s3:=strings.Split(s," ") //按空格切割 得到s3切片类型 
+		//字符串中的子串   （以下字符串位置均可使用变量） 
+	b:=strings.Contains("seafood","foo") //true 判断是否含有某子串 
+	n:=strings.Count("seafood","o")      //2    返回子串的个数 
+	index:=strings.Index("NLT_abc","abc")//4    子串第一次出现时的下标 
+	index:=strings.Index("go go12","abc")//3    子串最后一次出现时的下标
+	s:=strings.Replace("go go","go","北京",2) //输出替换子串后的新字符串 	
+
 //匿名变量 
     _   多用来忽略某个值  不占用命名空间 不分配内存 	
 //强制转换
