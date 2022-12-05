@@ -496,11 +496,11 @@ func main(){
 	}	
 
 //defer
-	延迟处理其后跟随的语句  一般用于释放资源
-	若有多个defer语句 先进后出 压栈操作
-			fmt.Print(1)	
+	延迟处理   一般用于释放资源
+	多个defer语句 依次压入栈中  先进后出
+	defer	fmt.Print(1)	
 	defer 	fmt.Print(2)
-			fmt.Print(3) // 1 3 2
+			fmt.Print(3) // 3 2 1
 	//defer与函数返回值
 	return 分两步 1 给返回值赋值 2 RET （不是原子操作） 
 	defer则在return的两步之间执行 可以覆盖返回值变量 
@@ -509,12 +509,12 @@ func main(){
 		//返回值声明了变量名 
 		在defer中改变此变量值就会改变输出值 
 	同时要注意作用域（此x非彼x）可能改变的是副本（如defer后又有函数且又定义了个x接收原来x的值） 不会改变输出值 
-	//defer后的语句有参数
-	先确定参数再将语句压栈   返回时直接用确定的参数运行语句 
-	fmt.Print(a,b)         //压栈时压入确定的值  fmt.Print(1，2) 
+	//defer后的参数
+	先确定参数的值再将语句压栈   返回时用确定的值运行语句 
+	defer fmt.Print(a,b)   //压栈时压入语句：fmt.Print(1，2) 
 	//函数语句前的defer  
-	defer f1(a,b,f2(a,b))  //压栈时压入 defer f1（2，2，4） 
-	若此函数输入的参数中还有函数   确定参数时把这个函数（参数）运行完再压入	
+	defer f1(a,b,f2(a,b))  //压栈时压入语句：f1（2，2，4） 
+	若此函数输入的参数中还有函数   压栈时把这个函数（参数）运行完再压入结果	
 //内置函数
 	close	主要用来关闭channel
 	len		用来求长度，比如string、array、slice、map、channel
