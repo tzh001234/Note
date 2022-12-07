@@ -522,10 +522,16 @@ func main(){
 	make	用来分配内存，主要用来分配引用类型，比如chan、map、slice
 	append	用来追加元素到数组、slice中
 	panic和recover	用来做错误处理
-//panic/recover      （一般不写） 
-	panic()  程序出现错误导致崩溃
-	recover() 恢复程序继续执行 必须在defer语句中才能生效（基本不用）	
-	defer 一定要在可能引发panic的语句之前定义 
+//错误处理         panic/recover/defer      
+	panic  程序出现错误导致崩溃
+	recover() 恢复程序继续执行 必须在defer语句中才能生效	
+	derer func(){  //一定要在可能引发panic的语句之前定义,可以让程序继续执行下面的代码 
+		err:=recover() 
+		if err!=nil {
+			fmt.Println("err=",err)
+			fmt.Println("可以在这里发送信息给程序员")
+		}  
+	}
 //递归   ：在函数中重复调用本函数 
 	func QQQQQ(n int)int{  //数几种走法  一步1或2个台阶 
 		if n==1{return 1}
