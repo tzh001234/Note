@@ -551,11 +551,8 @@ func main(){
 		if n==2{return 2}
 		return QQQQQ(n-1)+QQQQQ(n-2) 
 	} 
-	
-	
-	
-	
-	
+//return
+	跳出函数或方法，主函数中直接终止 	
 	
 	
 	
