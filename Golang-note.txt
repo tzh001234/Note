@@ -532,6 +532,19 @@ func main(){
 			fmt.Println("可以在这里发送信息给程序员")
 		}  
 	}
+	//自定义错误
+	func AddFile(name string)(err error){
+		if name=="conlig.txt"{
+			return nil     //返回一个自定义的error类型变量 err=nil 
+		}else{
+			return errors.New("读取文件错误")//err="读取文件错误"
+		}		
+	} 
+	err:= AddFile("conlig.c") 
+	if err != nil{
+		panic(err)  //终止程序，输出错误信息 
+	}
+	
 //递归   ：在函数中重复调用本函数 
 	func QQQQQ(n int)int{  //数几种走法  一步1或2个台阶 
 		if n==1{return 1}
