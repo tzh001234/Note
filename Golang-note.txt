@@ -572,7 +572,17 @@ func main(){
 		}
 	}
 	
-	
+##查找
+//顺序查找
+	index := -1
+	for i:=0;i<len(s);i++{
+		if s[i]==s1 {
+			index = i //将找到的值对应的下标赋值给index 
+			break
+		} 
+	} 
+
+
 	
 	
 # 其他
