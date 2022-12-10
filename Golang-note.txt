@@ -581,6 +581,21 @@ func main(){
 			break
 		} 
 	} 
+//二分查找 
+	func erfen(arr *[5]int,left,right,num int){
+		if right<left {
+			fmt.Println("未找到数据")
+			return
+		}
+		zhong:=(left+right)/2
+		if (*arr)[zhong]>num{
+			erfen(arr,left,zhong-1,num)
+		}else if (*arr)[zhong]<num{
+			erfen(arr,zhong+1,right,num)
+		}else {
+			fmt.Println("找到啦，下标为：",zhong)
+		}
+	}
 
 
 	
