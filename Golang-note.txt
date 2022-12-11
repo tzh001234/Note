@@ -254,11 +254,11 @@ func main(){
 	用来给slice、map以及channel申请内存 //返回这三个类型本身 
 //map  无序的映射  键值对  必须设定长度，分配内存 
 	map[KeyType]ValueType //KeyType:键的类型 ValueType:对应值的类型
-	map[int]string        //此时还未分配内存 
-	//初始化 
-	(1)a:=make(map[int]string,5) //make 构造map并分配内存
+	//声明与初始化 
+	var a map[int]string  //此时还未分配内存，必须使用make 
+	a = make(map[int]string,5) //make 构造map并分配内存
 	   a[100]="田子恒"
-	(2)b:=map[string]string{    //声明同时初始化 
+	b:=map[string]string{    //声明同时初始化 
 		"username": "沙河小王子",
 		"password": "123456",
 	}
