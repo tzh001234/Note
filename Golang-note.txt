@@ -597,6 +597,62 @@ func main(){
 		}
 	}
 
+##面向对象编程 
+//封装
+	在某一个包中有一些不希望能直接被其他包访问的变量，我们使用一些封装进行限制 
+	type person struct { //小写，只能本包访问 
+		name string 
+		age  int 
+	}
+	//构造函数 
+	func Newperson(s string) *person {
+		return &person{
+			name: s,
+		}
+	}
+	//对字段操作的方法（封装） 
+	func (q *person) Setage(a int){         //给age赋值 
+		if a<=0||a>200 { 
+			fmt.Println("年龄不对，添加失败")
+			return
+		} 
+		q.age=a
+	}
+	func (q *person) Getage(m int) int {    //拿到age的值 
+		if m != 666 {
+			fmt.Println("密码错误！不能查询")
+			return 0
+		}
+		return q.age
+	}
+//继承
+	//匿名结构体嵌套 
+	type acc struct {
+		age int 
+	}
+	type b struct{
+		acc	 	//匿名嵌套  继承  b可以直接使用acc的字段和方法   使用acc的方法时传入的值仍是acc类型，操作的仍是acc中的字段，并不是b 
+		a1 acc  //嵌套  组合  可以通过b.a1.使用acc的字段和方法
+		age 
+		int   //匿名字段可以是基本数据类型  b.int  注意不能冲突 
+	}
+	b.age  		//就近原则，编译器先看b中有没有age，没有就看b的匿名结构体中有没有age，依次类推 
+	b.acc.age	//字段冲突时必须这样调用，若不冲突可省略acc  简写为b.age 
+		如果b嵌入的两个匿名结构体中有同一个字段，且b中没有，就必须指定匿名结构体名访问，不能省略，否则无法确定到底是哪个 
+	p := b {
+		acc{
+			age:18,  //初始化时可以把嵌套结构体直接赋值 
+		},
+		a1:acc{
+			age:20,
+		},
+		age:30,	
+	}
+	//多重继承  （不推荐使用） 
+	一个结构体里面有多个匿名结构体  注意使用字段或方法冲突时标明是哪个匿名结构体 
+//多态
+ 
+
 
 	
 	
