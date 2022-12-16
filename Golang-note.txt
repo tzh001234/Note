@@ -413,14 +413,24 @@ func main(){
 	map[2]="qqq"
 	map[3]=true
 	map[4]=[...]string{"唱","跳","rap"}
-	//类型断言   判断空接口接收的是什么类型的值 
-	str,ok:=a.(string)   //1 str为对应值或零值 ok为布尔值bool 
-	switch t:=a.(type){  //2 判断类型 且能输出值 
-	case string:
-		fmt.Println("是一个字符串：",t)
-	case int:
-		fmt.Println("是一个int：",t)			
-	} 
+		//类型断言    判断空接口中值的类型 
+	A,ok:=a.(string)     //A为对应值或零值  ok为布尔值 
+	if ok {     //或者： if A,ok := a.(string); ok { } 
+		fmt.Println("只有断言成功才会运行这里，A就是对应类型值，一般针对A进行操作")
+	}  
+	   //循环判断传入参数的类型 
+	func TypeJudge(typesSlice ...interface{}){
+		for index,a := range typesSlice {
+			switch t:=a.(type){     //只会进到对应的类型
+			case string:
+				fmt.Println("是一个字符串：",t) // t 为对应类型的值 
+			case int:
+				fmt.Println("是一个int：",t)	
+			case func(int)int:
+				fmt.Println("是一个func(int)int类型：",t)					
+			}
+		}
+	}
 	
 	 
 ##函数
