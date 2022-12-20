@@ -685,7 +685,7 @@ func main(){
 	//读取文件
 	reader := bufio.NewReader(file) //创建一个 *Reader ，（带缓冲） 
 	for{
-		str,err := reader.ReaSring('\n') //读取到换行就结束 
+		str,err := reader.ReadString('\n') //读取到换行就结束 
 		if err == io.EOF{ 
 			break         //io.EOF表示文件的末尾(结束标志)
 		}
