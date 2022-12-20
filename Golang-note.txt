@@ -670,6 +670,29 @@ func main(){
 	如：Usb接口变量，当传入手机变量与传入相机变量时表现出来的状态是不同的	
 	//多态数组 
 	如：Usb接口数组，又可以存放手机变量又可以存放相机变量 
+
+##文件
+	os.File    (指针类型)
+	//数据流
+	文件在程序中是以流的形式操作的 
+	流：数据在数据源（文件）和程序（内存）之间经历的路径 
+	输入流（程序读取文件）
+	输出流（程序写入文件） 
+	//打开文件
+	file,err := os.Open("D:/录屏/1.txt")
+	//关闭文件  
+	defer err := file.Close()  //延时自动关闭 
+	//读取文件
+	reader := bufio.NewReader(file) //创建一个 *Reader ，（带缓冲） 
+	for{
+		str,err := reader.ReaSring('\n') //读取到换行就结束 
+		if err == io.EOF{ 
+			break         //io.EOF表示文件的末尾(结束标志)
+		}
+		fmt.Print(str)    //输出读取到的内容 
+	}
+	// 
+	
 	
 # 其他
 
