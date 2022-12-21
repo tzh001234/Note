@@ -678,21 +678,64 @@ func main(){
 	流：数据在数据源（文件）和程序（内存）之间经历的路径 
 	输入流（程序读取文件）
 	输出流（程序写入文件） 
-	//打开文件
+	//打开文件（创建文件） 
 	file,err := os.Open("D:/录屏/1.txt")
+	file,err := os.OpenFile("d:/abc.txt",os.O_WRONL | os.O_CREATE,0666) //路径，文件打开模式，和只在linx下有用的参数（打开方式可选择创建文件） 
 	//关闭文件  
-	defer err := file.Close()  //延时自动关闭 
-	//读取文件
-	reader := bufio.NewReader(file) //创建一个 *Reader ，（带缓冲） 
+	defer file.Close()  //延时自动关闭  
+	//读文件（一次性读取） 
+	file := "D:/录屏/1.txt" 
+	data,err := ioutil.ReadFile(file) //data是[]byte类型,包含文件全部内容 （open和close被封装在函数中，不用手动写） 
+	if err!=nil{
+		fmt.Printf("read file err=%v",err)
+	}
+	fmt.Printf("%s",data)  //以字符串方式输出内容 
+	//写文件（一次性写入）
+	err := ioutil.WriteFile("d:/2.txt",date,0666)  //将date写入路径对应的文件中去 
+	//读文件（带缓冲） 
+	reader := bufio.NewReader(file) //创建一个 *Reader 带缓存 (包中有很多针对这个结构体操作的方法)
 	for{
-		str,err := reader.ReadString('\n') //读取到换行就结束 
+		str,err := reader.ReadString('\n')   //读取到换行就结束 
+		fmt.Print(str)    //输出读取到的内容(字符串) 
 		if err == io.EOF{ 
 			break         //io.EOF表示文件的末尾(结束标志)
 		}
-		fmt.Print(str)    //输出读取到的内容 
 	}
-	// 
-	
+	//写文件（带缓存） 
+			//创建文件
+	file,err := os.OpenFile("d:/abc.txt",os.O_WRONLY | os.O_CREATE,0666) //没有此文件则创建文件，并可写入内容 
+			//覆盖文件内容 
+	file,err := os.OpenFile("d:/abc.txt",os.O_WRONLY | os.O_TRUNC, 0666) //打开已有文件，先清空，再写入内容 
+			//追加内容 
+	file,err := os.OpenFile("d:/abc.txt",os.O_WRONLY | os.O_APPEND,0666) //打开已有文件，追加写入内容 
+			//先读再追加
+	file,err := os.OpenFile("d:/abc.txt",os.O_RDWR	 | os.O_APPEND,0666) //打开已有文件，先读取（用上面的方式），再追加写入内容 	 
+		写入操作：(只O_WRONLY状态写会从头开始覆盖一部分，可以用追加内容的方式) 
+	str := "hello\r\n" //\r\n,都是换行符 
+	writer :=  bufio.NewWriter(file) 	//创建一个 *Writer  带缓存
+	for i:=0;i<5;i++{
+		writer.WriterString(str)  //因为Writer写入带缓存，所以这里只是写入缓存（Writer.buf，隐藏字段） 
+	} 
+	writer.Flush() //这里才能真正写到文件中。 
+	//判断文件夹是否存在
+	func PathExists(path string)(bool,error){ //传入文件路径 
+		_,err:=os.Stat(path)  //拿到os.Stat()的返回值 
+		if err==nil{  //nil代表没问题，文件存在 
+			return true,nil
+		}
+		if os.IsNotExists(err){  //os.IsNotExists()返回true表示文件确实不存在 
+			return fals,nil	
+		}
+		return false,err  //如果错误为其他类型，则不确定文件是否存在 
+	} 
+	//复制文件 
+	file1,err := os.Open("d:/1.txt")  //os.File结构体实现了io.Writer和io.Reader接口 ，也可传入io.Copy()中，不带缓冲 
+	reader := bufio.NewReader(file1)  //bufio.Reader结构体实现了io.Reader接口（带缓冲） 
+	file2,err := os.OpenFile("d:/2.txt",os.O_WRONLY|os.O_CREATE|os.O_TRUNC,0666)
+	writer:=bufio.NewWriter(file2)    //bufio.Writer结构体实现了io.Writer接口（带缓冲） 
+	io.Copy(writer,reader)  //带缓冲,也可以使用os.File类型不带缓冲。(从头开始复制并覆盖，超出部分仍保留原来的内容,可以使用O_TRUNC状态先清空再复制)
+
+
 	
 # 其他
 
