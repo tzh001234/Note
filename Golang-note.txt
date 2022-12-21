@@ -734,6 +734,7 @@ func main(){
 	file2,err := os.OpenFile("d:/2.txt",os.O_WRONLY|os.O_CREATE|os.O_TRUNC,0666)
 	writer:=bufio.NewWriter(file2)    //bufio.Writer结构体实现了io.Writer接口（带缓冲） 
 	io.Copy(writer,reader)  //带缓冲,也可以使用os.File类型不带缓冲。(从头开始复制并覆盖，超出部分仍保留原来的内容,可以使用O_TRUNC状态先清空再复制)
+	//获取命令行参数
 
 
 	
