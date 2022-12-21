@@ -738,6 +738,11 @@ func main(){
 	for i,v:=range os.Args {  //启动程序时os.Args切片自动收入命令行参数（以空格间隔） 
 		fmt.Printf("os.Args[%v]=%v\n",i,v) //如： main.exe 1 2 3 
 	}
+	//flag包解析命令行参数  
+	var user string
+	var pwd  string
+	var port int 
+	
 	
 
 	
