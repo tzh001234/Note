@@ -735,7 +735,10 @@ func main(){
 	writer:=bufio.NewWriter(file2)    //bufio.Writer结构体实现了io.Writer接口（带缓冲） 
 	io.Copy(writer,reader)  //带缓冲,也可以使用os.File类型不带缓冲。(从头开始复制并覆盖，超出部分仍保留原来的内容,可以使用O_TRUNC状态先清空再复制)
 	//获取命令行参数
-
+	for i,v:=range os.Args {  //启动程序时os.Args切片自动收入命令行参数（以空格间隔） 
+		fmt.Printf("os.Args[%v]=%v\n",i,v) //如： main.exe 1 2 3 
+	}
+	
 
 	
 # 其他
