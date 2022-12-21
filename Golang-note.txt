@@ -748,6 +748,19 @@ func main(){
 	flag.Parse() //真正将命令行参数转换为变量值 （必须写这个函数） 
 	命令行运行时输入：main.exe -u tzh -pwd 666 -port 3307 (顺序可变，某一项没写就为默认值)
 	
+##单元测试
+	测试函数运行是否正确，也可以测试性能（运行时间） 
+	测试时testing生成一个框架，将所有的xx_test.go文件引入，框架中的main函数会调用所有的TestXxx()函数（将xx_test.go文件放在与被测试的函数相同的包中）
+	测试用例函数必须以Test开头   TestXxx(t *testing.T)函数的形参类型必须是*testing.T 
+	go test    //如果运行正确，无日志，错误时会输出日志 
+	go test -v //运行正确或错误都输出日志 
+	t.Fatalf() //出现错误时用来格式化输出错误信息，并退出程序 
+	t.Logf //输出相应的日志 
+	PASS表示测试用例运行成功 
+	FAIL表示测试用例运行失败 
+	测试单个文件一定要带上被测试的源文件 如测试cal.go文件：go test -v cal_test.go cal.go  
+	测试单个方法(函数):go test -v -test.run TestAddUpper  //只会调用 TestAddUpper
+
 	
 # 其他
 
