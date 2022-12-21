@@ -742,9 +742,12 @@ func main(){
 	var user string
 	var pwd  string
 	var port int 
+	flag.StringVar(&user,"u","","用户名，默认为空") //指针、名称、默认值、使用信息（指针指向存值的变量，名称在命令行输入时标识，用 -名称 ） 
+	flag.StringVar(&pwd,"pwd","","密码，默认为空")
+	flag.IntVar(&port,"port",3306,"端口号，默认为3306")
+	flag.Parse() //真正将命令行参数转换为变量值 （必须写这个函数） 
+	命令行运行时输入：main.exe -u tzh -pwd 666 -port 3307 (顺序可变，某一项没写就为默认值)
 	
-	
-
 	
 # 其他
 
