@@ -1,31 +1,38 @@
 package main	
-	//package 声明文件属于哪个包  main函数必须放在main包  编译生成可执行文件  
- 
+	//package 声明文件属于哪个包  main函数必须放在main包  编译生成可执行文件 
+	
 import (      //引入包时用文件夹的路径   一个文件夹只能有一个包 
 	"Aaa/qqq" 
 	_ "fmt"   // _ 忽略这个包 
 )  
-   
-	函数外只能放标识符(变量 常量 函数 类型)的声明  每个语句都必须以"关键字"开头 
-
-func main(){  	 
+	函数外只能放标识符(变量 常量 函数 类型)的声明，必须以"关键字"开头 
+		
+func main(){  	 //入口函数 
 ## 声明变量  
-	初始值为空  非全局变量声明之后必须使用 
-	var A string       
-	var s1="hello"  //类型推导
-	var s2 int32=1
-	var s3=int8(2)     //强制转换
-	s4:=12     //在函数内声明变量可以省略var关键字 
+	初始值为空  非全局变量声明之后必须使用  严格区分大小写 
+	var A int       
+	var s1="hello"    //类型推导
+	var s2 int = 1
+	var s3 = int8(2)  //强制转换
+	s4:=12    	      //省略var关键字  只能在函数内使用 
 	s5:=int8(2)
-
-	//批量声明 
+	
+	//批量声明
 	var(
 		A string
 		B int
 		C bool
 	)  
+	var a,b,c =0,1,2 	
+//变量作用域 
+	全局变量可以在整个包中使用，首字母大写可以在整个程序中使用（包名.变量名）
+	局部变量只在本函数内生效
+	//语句块中的作用域
+	if判断、for循环、switch 等语句中定义的变量只在本语句中生效
+	若变量名相同，编译器会采用就近原则，优先使用小范围内的变量
 //变量名格式    
-	var studentName string //小驼峰（推荐使用）
+	推荐使用小驼峰
+	var studentName string //小驼峰 
 	var StudentName string //大驼峰 
 	var student_name string//下划线 
 //定义常量  
@@ -36,9 +43,9 @@ func main(){
 		s2    //默认和上一行值一样 
 		s3
 	) 
-    iota : 计数器 //在const出现时被置为零 每新增一行常量声明就计数一次 加一 
+    //iota      计数器
 	const(
-		b1=iota  //0
+		b1=iota  //iota在const出现时被置为0 每新增一行常量声明就加一
 		b2       //1
 		_        //2
 		b3       //3
@@ -55,25 +62,29 @@ func main(){
 	//输出语句 
 	fmt.Print(A) 直接输出要打印的内容 
 	fmt.Printf("name:%s\n",A)  %s:占位符 字符串类型  \n:换行符 
-	fmt.Println(a) 末尾输出一个换行符 
+    fmt.Println(a) 末尾输出一个换行符 
 	//输入语句 
 	fmt.Scan(&a,&b)  //键盘输入时以空格作为分隔符  
 	fmt.Scanf("%d",&a) 
-	fmt.Scanln(&a)   
+	fmt.Scanln(&a)  
+	//格式化 
+	s=fmt.Sprint (A,"你好") //返回格式化后的字符串 
+	s=fmt.Sprintf("A=%d",A)
 ## 基本数据类型
 	//值类型：    通常存放在栈区中
 	int  float  bool  string  数组  结构体    
 	//引用类型：  通常存放在堆区中  没有变量引用存放的地址时由GC回收 
-	指针  slice切片  map  chan管道  interface接口  
+	指针  slice切片  map  chan管道  interface接口   
+	引用类型默认值为nil 
 //占位符:
-	fmt.Printf("%T\n",A)  //用 unsafe.Sizeof() 可以返回变量占用的字节数
+	fmt.Printf("%T\n",A)//用 unsafe.Sizeof() 可以返回变量占用的字节数	 
 	%T 变量的类型 
 	%v 默认类型值（万能）%#v 标注变量的类型
 	%b 二进制  %d十进制  %o八进制  %x十六进制 
 	%f 浮点数  %9.2f  
-	%c 字符 （数对应的unicode码值） 
+	%c 字符 （数对应的unicode码的符号） 
 	%s 字符串
-	%q 单/双引号括起来的字符/字符串字面值，必要时采用安全的转义表示
+	%q 带引号的字符/字符串的值，必要时采用安全的转义表示
 	%p 内存地址（指针）  & ：取(变量)地址 
 	%t 布尔值 
 	%U Unicode格式:U+1234 等价于 U+%04X 
@@ -82,36 +93,38 @@ func main(){
 	\	\r 回车符 \n 换行符 \t 制表符（Tab键） \"" 双引号 \\ 反斜杠 
 
 //自定义类型与类型别名
+	定义之后go认为是新的数据类型，不可直接相互赋值，需要强转 
 	type a int	//自定义类型  打印类型：main.a  这里认为a和int不是一个类型   但是如果是自定义的函数类型，则认为是同一个类型 
 	type b=int  //类型别名 	  打印类型：int     如byte是uint8的类型别名 而rune是int32 
-		 
-//整形  int或uint在32位操作系统上就是int32或uint32 在64位操作系统上就是int64或uint64
-	机器使用补码计算,手动模拟计算方式：先取反码再取补码，然后相加，再转换回反码然后转换回源码 
-		int //有符号整型 
-		int8    //八位（ -128到127） 
-		int16
-		int32 //rune 
+	
+//整形      
+	int //带符号整型    根据操作系统位数定值int32或int64
+		int8     
+		int16	//一位是符号位  范围：（ -2^15到2^15-1）
+		int32   //rune 
 		int64
 	uint//无符号整型 
-		uint8   //八位（0到255）
+		uint8    //（0到255）
 		uint16
-	uintptr     //无符号整型 存放指针 
+		uintptr  //存放指针 
 	//超出值范围溢出 
 	a:=int8(3) 
 	a+=127 //可以编译通过，但是会发生溢出，结果为-126 
 		计算机运行使用"补码"计算,手动模拟计算方式：先取反码再取补码，然后相加，再转换回反码然后转换回源码 
 	a+=128 //不可以编译通过，128本身已经超过int8的范围
-//进制  
-	A:=10101    //十进制 
-	A:=0777     //八进制 
-	A:=0x12345  //十六进制  
-	fmt.Printf("%d%b%o%x",A) //%d 十进制 %b 二进制 %o 八进制 %x 十六进制   
+	 
+	//八进制和十六进制  
+	A:=999         //十进制 
+	A:=0777        //八进制 
+	A:=0x19abcdef  //十六进制  
+	fmt.Printf(" %d %b %o %x ",A)//%d 十进制 %b 二进制 %o 八进制 %x 十六进制   
 //浮点型小数 
-	float32	float64    //两个完全不同的类型值  不能直接相互赋值 
+	float32	 float64    //两个完全不同的类型值  不能直接相互赋值 
 	math.MaxFloat32	  math.MaxFloat64  //最大值
 	f1:=1.23456 // 默认为float64 
 	f2:=float32(1.23456) 
 	fmt.Printf("%T\n", f2) //32位 
+	求平均值的时候需要将int类型的强转到float 
 //复数
 	var a1 complex64       var a2 complex128
 	a1=1+2i
@@ -122,24 +135,28 @@ func main(){
 	不允许将整形（0 1）强制转换为布尔型 
 	无法参与数值运算，也无法与其他类型进行转换 
 //字符串   
-	字符串:%s "双引号" 类型：string 
-	字符： %c '单引号' 类型：byte（int8）代表ASCII码字符  以及 rune（int32）代表UTF-8字符   
-	多行字符串： ` `  原样输出  
-	A:=`田某某 
-	大帅B `
+	%s 类型：string     底层是byte数组 
+	%c 类型：字符 byte（uint8）表示 ASCII码字符（0~127） 
+			    //rune（int32）代表 UTF-8  字符(可放汉字(3个字节),UTF-8是可变长编码，兼容ASCII码)  
+	字符串中的转义字符会被识别，\n输出时会换行  \t输出制表符 
+	//多行字符串  
+	A:= `
+		田某某    //` ` 反引号中的内容会原样输出 
+		大帅B
+	`
     //字符串相关操作：
 	B:="理想"
 	C:="大帅B" 
 	len(B)  //字符串长度
-	D:=B+C  //字符串拼接
+	D:=B+C  //字符串拼接，若需要分行写就需把加号留在上一行 
 	D:=fmt.Sprintf(B,C) //字符串拼接，不打印，同上 
-	fmt.Printf("%s%s",B,C) //直接打印出B和C，理想大帅B  
     //修改字符串：
-	s2:=[]rune(s1)  //切割为[]rune或[]byte类型的切片  
-	fmt.Println(string(s2))  //再转换成字符串类型输出
+	s2:=[]rune(s1)  //切割字符串为[]rune或[]byte类型的切片，有汉字时用rune  
+	    （修改其中一些字符） 
+	s1=string(s2)  //再转换成字符串类型
 	//字符串切割
-	s:="how do you do"
-	s3:=strings.Split(s," ") //按空格切割 得到s3切片类型 
+	s:="how do you do"		//按空格切割  s3为切片类型 
+	s3:=strings.Split(s," ") 
 	//字符串中的子串   （以下字符串位置均可使用变量） 
 	b:=strings.Contains("seafood","foo") //true 判断是否含有某子串 
 	n:=strings.Count("seafood","o")      //2    返回子串的个数 
@@ -152,10 +169,20 @@ func main(){
 		将字符串中字母大小写进行转换 
 	s=strings.Tolower("Go") //go  全转换成小写 
 	s=strings.ToUpper("Go") //GO  全转换成大写
+	//字符串两边的字符
+	s=strings.TrimSpace	(" tn a lone ") //删除左右两边的空格 
+	s=strings.Trim		("!hello!","!") //删除左右两边的"!" 
+	s=strings.TrimLeft	("!hello!","!") //删除左边"!"
+	s=strings.TrimRight	("!hello!","!") //删除右边"!"
+	b=strings.HasPrefix ("ftb://2.","ftb") //判断是否以指定的字符串开头 
+	b=strings.HasSuffix ("abc.jpg",".jpg") //判断是否以指定的字符串开头 
+		
 //匿名变量 
     _   多用来忽略某个值  不占用命名空间 不分配内存 	
+	 
 //强制转换
 	a:=int(b) 转换完之后b本身的类型不会变，若数值超过范围则进行溢出处理 
+	求平均值的时候需要将int类型的强转到float才能留下小数点 
 	//基本数据类型 转 字符串类型 
 	1）str:=fmt.Sprintf("a=%d",a)  //返回对应的字符串类型 
 	2）str:=strconv.Itoa(a) //strconv包中的Iota函数，将int转换为字符串类型 
@@ -165,14 +192,39 @@ func main(){
 	strconv包中的Parse系列函数用于转换字符串为给定类型的值
 		ParseBool() 、 ParseFloat() 、 ParseInt() 、 ParseUint() 
 		如果转换的时候不匹配就输出对应类型的默认0值 
-
+//时间Time类型 
+	导入"time"包，里面有time.Time类型
+	now:=time.Now() //返回当前的时间  time.Time类型
+	fmt.Printf("年月日时分秒：%d-%d-%d %d:%d:%d",now.Year(),now.Month(),now.Day(),now.Hour(),now.Minute(),now.Second() )
+	t:=fmt.Sprintf("年月日时分秒：%d-%d-%d %d:%d:%d",now.Year(),now.Month(),now.Day(),now.Hour(),now.Minute(),now.Second() )
+	fmt.Printf(now.Format("2006/01/02 15:04:05"))//格式化输出（数值固定但可以只写一部分） 如："2006-01"
+	//时间常量     （如调用秒：time.Second） 
+	const (    
+    	Nanosecond  Duration = 1 // 纳秒 
+    	Microsecond          = 1000 * Nanosecond // 微秒 
+    	Millisecond          = 1000 * Microsecond // 毫秒 
+    	Second               = 1000 * Millisecond // 秒 
+    	Minute               = 60 * Second // 分钟 
+    	Hour                 = 60 * Minute // 小时 
+	)
+	//延时 ，休眠
+	time.Sleep(time.Millisecond*100)  //休眠100毫秒
+	//时间戳 
+	Unix()定义：func (t Time) Unix() int64 //返回从1970.1.1到时间t的秒数 
+	UnixNano()定义：func (t Time) UnixNano() int64 //返回从1970.1.1到时间t的纳秒数
+	可以用前后两次时间戳的差值计算某个函数用了多长时间 
+//生成随机数 
+	导入"math/rand"包 
+	rand.Seed(time.Now().UnixNano())//利用时间戳给种子（rand.Seed）一个随机值 
+	n:=rand.Intn(100) //生成[0，100）的(伪)随机数
+	
 ## 复合数据类型
 //数组   （array） 
-	必须指定元素的类型和容量 
+	必须指定元素的类型和长度，长度是数组的类型的一部分 
 	//初始化
 	var A [3]bool //默认为零值 [false false false] 		
 	A=[3]bool{true,true,true}
-	B:=[5]int{0:1,4:2}//根据索引初始化[1 0 0 0 2]
+	B:=[5]int{0:1,4:2}//根据下标索引进行初始化 [1 0 0 0 2]
 	C:=[...]int{1,2,3,4,5}//自动推断长度 
 	注意：多维数组只有第一层可以使用[...] 
 	//遍历   for range
@@ -191,113 +243,115 @@ func main(){
 		} 
 	}
 //切片  (slice)
-	首指针、长度、容量	
-	"引用类型",切片不存值 
+	首指针、长度、容量   	//由三部分组成（用结构体实现） 
+	是"引用类型",切片不存值 
 	对切片内值的任何改变都是改变"底层数组"内的值 
 	//定义
-	var s1 []int  //nil 此时还未分配内存 
-		fmt.Println(s1==nil)//true  不能直接比较，只能和nil比较
-	//初始化
-	s2=[]string{"北京","保定"}
-		fmt.Println(s1==nil)//false 初始化之后就不为nil了 （首指针就不是nil了） 
+	var s1 []int  //nil  此时还未分配内存 
+		fmt.Println(s1==nil)//true   切片不能直接比较，只能和nil比较
+	var s2 []int = []int{1,2,3} 
+		fmt.Println(s1==nil)//false  初始化之后首指针就不等于nil了 
+	s3:=a[:]   //i.j都可以省略 
+	s3:=a[i:j] //从i到j切割数组a，但是不包含j (含左不含右)
+	//make()    定义同时分配内存 
+	a:=make([]int,2,10)   长度：2 容量：10 //底层数组未命名，不可见，只能通过切片访问 
 	//由数组构造切片 
-	s1:=s[:] 
+	s1:=s[1:5]    只包含从第二个到第五个，含左不含右 
 	//切割字符串
 	s1:=[]rune(s) //将字符串s切割成切片s1（s1中是字符） 
 	s1:=[]byte(s) 
-	//make()    同时分配内存 
-	a:=make([]int,2,10)   长度：2 容量：10 
 	//长度和容量
+	cap()：求容量，按底层数组算 从i开始有几个数容量就是几 
 	a:=[5]int{1,2,3,4,5}
-	s3:=a[i:j] //从i到j 不包含j (含左不含右) 
-	s3:=a[1:4] //{2,3,4}  长度：3 容量：4 
-	用len( )求长度  cap( )求容量
-	fmt.Printf("len(s3):%d cap(s3):%d",len(s3),cap(s3))
-	容量：按底层数组算 从i开始有几个数容量就是几 
+	s3:=a[1:4] //{2,3,4}  长度：3 容量：4    
 	//再分割
 	s4:=s3[0:2] //{2,3} 长度：2 容量：4  （含左不含右） 
 	//判断空切片 （长度为0就是空切片） 
 	用len(s) == 0	 不要用 s==nil//长度为零就是空切片，但是空切片分配内存之后就不是nil了
 	一个nil值的切片长度和容量都是0  但一个长度和容量都是0的切片不一定是nil	 
-	//赋值拷贝
-	s1 := make([]int, 3) //[0 0 0]
-	s2 := s1 //将s1直接赋值给s2，共用一个底层数组 
-	//复制 copy( )	 
-	s3:=make([]int,2,3) //提前定义好s3的长度和容量，区别于s2  
-	copy(s3,s1) //不共用底层数组 只把数一一对应放到s3中 s3的容量和长度不变   
-	//遍历
+	//赋值
+	s2 := s1 //将s1赋值给s2，共用一个底层数组 
+	//复制copy()	 
+	s3:=make([]int,2,3)//s3的容量和长度不变  (s1的值超出s3的长度的部分就不会再赋值)
+	copy(s3,s1) //把数一一对应放到s3中，只传数组中的值不共用底层数组    
+	//遍历 
 	方式和数组一致，支持索引遍历和for range遍历。 
-	//追加元素 append（）   自动初始化切片 
-	s:=[]int{1,2}   
-	s=append(s,3,4) //{1,2,3,4}
-	容量不够时按照一定策略进行“扩容”//先判断新申请容量如果大于两倍旧容量直接给新申请容量  否则旧切片长度为1024以下就乘以2  大于等于1024就循环乘以1.25直到容量大于新申请容量   
-	  s2:=[]int{3,4}
-	s=append(s,s2...) //{1,2,3,4,3,4}  ... ：拆开s2
-	//删除元素   (先分割再追加）用append  
+	//追加append（）     
+	var s []int   
+	s=append(s,1,2)  //自动初始化切片，无需提前make申请内存 
+	容量不够时按策略"扩容" //新申请容量大于两倍旧容量直接扩容到新申请容量  否则若旧容量小于1024就乘2  大于等于1024就循环乘以1.25直到大于新申请容量
+	 s2:=[]int{3,4}
+	s=append(s,s1...) //拆开s1：s1...  将拆开的元素依次追加进去
+	//删除元素     (先分割再追加）用append  
+	删除下标为i的值
+	s=append(s[:i],s[i+1:]...) // 分割时含左不含右 
 	s:=[]int{1,2,3,4,5}
-	s=append(s[:2],s[3:]...)//{1,2}+4,5  即{1,2,4,5} （分割含左不含右） 
+	s=append(s[:2],s[3:]...)//{1,2}+4,5  即{1,2,4,5}
 	//排序
 	a:=[...]int{3,7,8,9,1}
 	sort.Ints(a[:]) // a[:] 由数组构造切片 
 //指针	  只能读不能改	    
 	a:=&b //a取出b的地址，此时a为指针 类型是*int
-	c:=*a //根据地址找值，c的类型是a指向的int类型 
+	c:=*a //根据地址找值，c的类型是a指向的int类型也就是b 
 	数据类型：*int  *string 等
 	//地址 
 	fmt.Printf("%p",&b)  //b的地址 
-	fmt.Printf("%p", a)  //b的地址（指针a的值） 
-	fmt.Printf("%p",&a)  //a的地址
+	fmt.Printf("%p", a)  //b的地址（指针a存放的是地址） 
+	fmt.Printf("%p",&a)  //a的地址（指针a本身也有地址） 
 	//new 
 	a:=new(int) //返回一个指向该类型的指针   分配一个新地址 
 	b:=new(bool)  
 	//make
 	用来给slice、map以及channel申请内存 //返回这三个类型本身 
-//map  	无序的映射  键值对  "引用类型"必须分配内存   可以自动扩容  
+//map  
+	无序的映射  键值对  "引用类型"必须分配内存   可以自动扩容    
 	map[KeyType]ValueType //KeyType:键的类型 ValueType:对应值的类型
 	//声明与初始化 
 	var a map[int]string  //此时还未分配内存，必须使用make 
 	a = make(map[int]string,5) //make 构造map并分配内存
 	   a[100]="田子恒"
 	b:=map[string]string{    //声明同时初始化 
-		"username": "沙河小王子",
+		"username": "沙河",
 		"password": "123456",
 	}
-	//判断是否存在    (一般用ok) 
+	//查找   判断是否存在    (一般用ok) 
 	v := Map[key]    // v: 对应值或零
 	v, ok := Map[key]//ok：布尔值(true  false)
 	_, ok := Map[key]//单纯判断 
 	if !ok {                   
 		fmt.Println("查无此人")
 	} else {                
-		fmt.Println(v) 
-	}
-	//遍历  for range
-	for key,value := range scoreMap {
-		fmt.Println(key,value)
-	}
-	for key := range scoreMap {     //只遍历key 
-		fmt.Println(key)
-	}
-	for _,value := range scoreMap { //只遍历value
-		fmt.Println(value)
+		fmt.Println("找到了"，v) 
 	}	
-	//按一定顺序遍历 
-	var keys = make([]string, 0, 200) //定义一个切片 
-	for key := range scoreMap {		//取出map中的所有key存入切片keys
-		keys = append(keys, key)
+	//按顺序遍历 
+	var keys = make([]string, 0, 200) //先定义一个切片 
+	for k := range scoreMap {		//遍历map将所有的key存入切片keys中 
+		keys = append(keys, k)
 	}
 	sort.Strings(keys)	//对切片进行排序
-	for _ , key := range keys {		//按照排序后的key遍历map
-		fmt.Println(key, scoreMap[key])
+	for _ , k := range keys {		//按照排序后的key遍历map
+		fmt.Println(k, scoreMap[k])
 	}
 	//删除   delete  
-	delete(scoreMap,"田子恒")//删除元素,若nil或无此元素,则无操作
+	delete(scoreMap,"田子恒") //删除元素,若nil或无此元素,则无操作，不报错 
 	aaa:="北京"
 	delete(scoreMap,aaa) 
-	// 元素为map类型的切片
+	scoreMap=make(map[int]string) //重新分配一个，直接抹除之前所有的内容 
+	//值为结构体的map
+	type student struct { }
+	stuMap:=make(map[int]student,10)  //较为常用 
+	//值为map的map
+	studentMap:=make(map[int]map[string]string,10)
+	studentMap[20190202] = make(map[string]string,3)
+	studentMap[20190202]["姓名"] ="壮士"	
+	studentMap[20190202]["年龄"] ="18"		
+	//元素为map类型的切片
 	slice := make ([]map[int]string,2,3) 
 	slice[0]=make(map[int]string,9) //未分配内存的map需要先用make分配内存 
-	slice[0][100]="QQQ" // slice:[map[100:QQQ] map[]]
+	slice[0][100]="QQQ" // slice:[ map[100:QQQ]  map[] ]
+	这里我们使用append可以动态增加切片的容量
+	newMap:=make(map[int]string) //新的需要添加进切片的map 
+	slice=append(slice,newMap) 
 	//值为切片类型的map
 	m1:=make(map[string][]int,10)
 	m1["北京"]=[]int{1,2,3} // m1: map[北京：[1,2,3] ]	
