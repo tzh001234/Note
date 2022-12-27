@@ -252,7 +252,7 @@ func main(){
 	b:=new(bool)  
 	//make
 	用来给slice、map以及channel申请内存 //返回这三个类型本身 
-//map  无序的映射  键值对  必须设定长度，分配内存 
+//map  	无序的映射  键值对  "引用类型"必须分配内存   可以自动扩容  
 	map[KeyType]ValueType //KeyType:键的类型 ValueType:对应值的类型
 	//声明与初始化 
 	var a map[int]string  //此时还未分配内存，必须使用make 
