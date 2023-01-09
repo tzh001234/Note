@@ -13,7 +13,7 @@ func main(){  	 //入口函数
 	var A int       
 	var s1="hello"    //类型推导
 	var s2 int = 1
-	var s3 = int8(2)  //强制转换
+	var s3 = int8(2)  //强制转换  
 	s4:=12    	      //省略var关键字  只能在函数内使用 
 	s5:=int8(2)
 	
