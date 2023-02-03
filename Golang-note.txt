@@ -1074,14 +1074,32 @@ func main(){  	 //入口函数
 		减少 
 
 //go操作数据库
-	原生支持连接池，是并发安全的 
-	database/sql （没有具体的实现，只是定义第三方数据库驱动程序需要满足的接口）
-	需要下载数据库驱动，下载第三方依赖的方法：go get 包的路径  
-	第三方依赖默认保存在GOPATH/src/目录下 
-	//使用驱动
-	驱动程序会向go官方申请一个名叫“mysql”的驱动，就可以使用Open以及ping方法连接数据库 
-	dsn := "root:root@tcp(127.0.0.1:3306)/goday10" //数据库信息  
-	db,err := sql.Open("mysql",dsn) //不会校验用户名和密码是否正确 ，只会检查格式。 
-	err = db.Ping() //尝试连接数据库  
+	需要先下载数据库驱动，下载第三方依赖的方法：go get 包的路径 
+	原生支持连接池，是go协程并发安全的 
+	引入database/sql包，它没有具体的实现，定义了第三方数据库驱动程序需要满足的接口
+	驱动程序也要引入对应的包，如：_"github.com/go-sql-driver/mysql"  //相当于init()  
+	驱动程序会向database/sql注册名叫“mysql”的驱动，就可以使用Open连接对应的数据库 
+	//数据源名称 （DSN）  描述数据库连接信息
+	dsn := "root:001234@tcp(127.0.0.1:3306)/goday10"
+		  用户名：密码@tcp(ip或域名:端口号)/数据库名称 	
+	//open()打开数据库，返回数据库句柄db（sql.DB对象），不会校验用户名和密码是否正确，只会检查格式， 	 
+	db,err := sql.Open("mysql",dsn)    
+	//Close()关闭数据库   建议使用长连接，不要频繁open，close 
+	defer db.Close()
+	//Ping()检验是否能够真正连接到数据库，账户密码等信息有误时报错
+	err = db.Ping() 
+	//查询一行     db.QueryRow()返回一个*Row类型值，存储了单行查询的结果 
+	sqlStr:="select id,name from user where id=?"//在user表中用id值查询id，name。问号是占位符，QueryRow中输入值 
+	err:=db.QueryRow(sqlStr,1).Scan(&u.id,&u.name)//*Row类型的Scan方法将查询结果分别存到对应的值中（结构体） 
+	连接池设置最大连接数：db.SetMaxOpenConns(10)  设置最大闲置连接数：db.SetMaxIdleConns(5) 
+	QueryRow()从连接池中拿一个连接出来，去数据库查询单行记录 
+	Scan()将结果赋值到变量中后会释放连接，放回连接池中（必须调用Scan以释放连接） 
+
+
+
+
+
+
+
 
 
