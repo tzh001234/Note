@@ -1095,6 +1095,10 @@ func main(){  	 //入口函数
 	QueryRow()从连接池中拿一个连接出来，去数据库查询单行记录 
 	Scan()将结果赋值到变量中后会释放连接，放回连接池中（必须调用Scan以释放连接） 
 
+## Redis 
+	开源的内存数据库，提供多种类型的数据结构。用作缓存，减轻主数据库（MySQL）的压力。
+	字符串,哈希(hashe),列表(list),集合(set),带范围查询的排序集合(sorted set),bitmap,hyperloglog,带半径查询的地理空间索引geospatial index,流stream.
+
 
 
 
