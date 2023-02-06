@@ -1096,11 +1096,43 @@ func main(){  	 //入口函数
 	Scan()将结果赋值到变量中后会释放连接，放回连接池中（必须调用Scan以释放连接） 
 
 ## Redis 
-	开源的内存数据库，提供多种类型的数据结构。用作缓存，减轻主数据库（MySQL）的压力。
-	字符串,哈希(hashe),列表(list),集合(set),带范围查询的排序集合(sorted set),bitmap,hyperloglog,带半径查询的地理空间索引geospatial index,流stream.
-
-
-
+	开源的内存数据库，用作缓存，减轻主数据库（MySQL）的压力。
+	五种数据类型：字符串(string),哈希(hashe),列表(list),集合(set),有序集合(zset又名：sorted set)
+	创建redis服务器：打开cmd窗口执行redis-server.exe
+	创建redis客户端：打开cmd窗口运行redis-cli.exe -h 127.0.0.1 -p 6379 -a "001234"
+	select 2 选择(几号)数据库  PING 查看服务是否运行  QUIT 关闭当前连接
+	FlushAll 清空整个Redis服务器的数据   FlushDB 清空单个数据库 
+	//String
+	set myString "你好"  //存入一个key-value键值对（存在即修改，不存在就添加） 
+	set myString "你好" EX 5  //设置存在时间 5秒 
+	get myString  //拿到mystring的值（你好） 
+	del myString  //删除“myString”这个键 
+	//Hash (哈希) 
+	Redis hash是一个string类型的field（字段）和value（值）的映射表，hash特别适合用于存储对象。
+	HMSET myHash field1 "Hello" field2 "World" //键值对集合(key-value)
+	Hget  myHash field1 //拿到myHash中field1的值 
+	Hgetall myHash //拿到myHash中的所有映射
+	//List (列表) 
+	列表是简单的字符串列表，按照插入顺序排序。本质是链表。可以添加元素到头部（左边）或者尾部（右边）。
+	LPUSH myList redis   //(integer) 1  从左边（头部）插入 
+	LPUSH myList mongodb //(integer) 2
+	LPUSH myList rabbitmq//(integer) 3
+	Lrange myList 0 10   //(1)"rabbitmq" (2)"mongodb" (3)"redis"   输出按照插入顺序排序的列表 
+	RPUSH  //从右边（尾部）插入 
+	//Set (集合) 
+	Redis的Set是string类型的无序集合。集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是 O(1)。
+	Sadd mySet aaa //(integer) 1
+	Sadd mySet bbb //(integer) 1
+	Sadd mySet ccc //(integer) 1
+	Sadd mySet aaa //(integer) 0 不允许重复 元素已经在集合中返回 0 
+	Smembers mySet //(1)"bbb" (2)"aaa" (3)"ccc"  输出无序集合
+	//zset(有序集合 sorted set)
+	每个元素都会关联一个double类型的分数。redis通过分数进行从小到大的排序。
+	元素是唯一的,但分数(score)却可以重复。
+	Zadd myZset 0 aaa //(integer) 1
+	Zadd myZset 1 bbb //(integer) 1
+	Zadd myZset 0.5 ccc //(integer) 1
+	ZRANGEBYSCORE myZset 0 1000 //(1)"aaa" (2)"ccc" (3)"bbb"  按分数排序 加上WITHSCORES会输出分数 
 
 
 
