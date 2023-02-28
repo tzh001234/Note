@@ -1135,9 +1135,59 @@ func main(){  	 //入口函数
 	ZRANGEBYSCORE myZset 0 1000 //(1)"aaa" (2)"ccc" (3)"bbb"  按分数排序 加上WITHSCORES会输出分数 
 
 
+//go-redis 
+	消息传递一般使用结构体（进行序列化操作） 
+	//获取连接,定义一个客户端Client 
+	var Rdb = redis.NewClient( &redis.Options{ //Options结构体是配置信息 
+		Addr:     "127.0.0.1:6379", //服务器  ip:port
+		Password: "",               //密码
+		DB:       0,                //选择数据库（0-15）
+	})
+
+	//读取  	do方法可以读取和写入,给cmd传入redis语句：hget users 1186
+	userString, err := Rdb.Do("hget","users",1186).Result()	//Result()返回cmd的输出结果，空接口类型
+	//写入      将user序列化后写
+	v, err = this.RedisDB.Do("hset","users",UserId,string(j)).Result() //Result()返回cmd的输出结果，如：成功时返回1 	
+	//json序列化    将读取的值反序列化放入user结构体中
+	err = json.Unmarshal([]byte(userString.(string)), &user) //类型断言，转换为字符串后强转为切片 
+	j, err := json.Marshal(user)	//将user结构体序列化后写入redis
+
+
 ## Gin
 	gin框架采用的路由库是基于httprouter做的 
  
+ 
+ 
+## Cgo 
+	//#cgo CFLAGS: -I./hello
+	//#cgo LDFLAGS: -L${SRCDIR}/hello -lhello
+	//#include "hello.h"
+	import "C" 
+ 
+## go mod
+
+	//go mod init +文件名     创建go.mod文件
+	引入自己的包从module名开始（go.mod文件中） 
+	
+
+## net	
+	//开启服务器，等待客户端连接
+	listener, err := net.Listen("tcp", "127.0.0.1:8889")//服务器将在8889端口监听
+	for {
+		conn, err := listener.Accept()
+		//连接成功则启动一个协程和客户端保持连接
+		go  process.Process(conn)
+	}
+ 
+	//(客户端)连接到服务器
+	conn, err = net.Dial("tcp", "127.0.0.1:8889")
+	data, err := json.Marshal() //将消息序列化 
+	_, err = conn.Write(data)   //发送消息 
+
+	buffer := make([]byte, 8096) //用buffer存放接收到的数据
+	pkgLen = binary.BigEndian.Uint32(buffer[0:4]) //先接收长度消息 
+	n, err := conn.Read(buffer[:pkgLen]) //根据长度信息接收正文结构体信息
+	err = json.Unmarshal(buffer[:pkgLen], &mes)	//将buffer反序列化放到结构体mes中 
  
  
 
